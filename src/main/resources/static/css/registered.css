@@ -1,0 +1,24 @@
+input[type=submit] {
+    display: inline-grid;
+    padding: 0.5em 1.5em;
+    border: 0;
+    background-color: rgb(232,229,223);
+    border-radius: 5px;
+    position: fixed;
+    align-self: center;
+}
+
+input[type=submit]:hover {
+    color: white;
+    background-color: rgb(165, 162, 155);
+    animation: custom ease-in-out 0.2s;
+    cursor: pointer;
+}
+
+/* CUSTOM ANIMATION ON MOUSE HOVER */ 
+@keyframes custom {
+    50% {
+        background-color: rgb(124, 122, 117);
+        transform: scale(1.05);
+    }
+}
