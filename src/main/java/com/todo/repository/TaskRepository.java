@@ -6,4 +6,6 @@ import com.todo.domain.Task;
 
 public interface TaskRepository extends CrudRepository<Task, Long> {
     
+    Task findTaskById(Long id);
+    
 }

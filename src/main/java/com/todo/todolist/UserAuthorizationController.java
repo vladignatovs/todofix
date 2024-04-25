@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.todo.domain.Role;
 import com.todo.domain.User;
 import com.todo.repository.UserRepository;
 
@@ -69,6 +70,7 @@ public class UserAuthorizationController {
     @RequestParam(value="psw-repeat") String repeat, HttpSession session) {
 
         ModelAndView modelAndView = new ModelAndView();
+        Role role;
 
         if(userRepository.findByEmail(email) != null) {
 
@@ -84,9 +86,16 @@ public class UserAuthorizationController {
 
         }
 
+        if(email.equals("admin@admin.com")) {
+            role = Role.ADMIN;
+        } else {
+            role = Role.USER;
+        }
+
         User user = User.builder()
         .email(email)
         .password(password)
+        .role(role)
         .build();
 
         userRepository.save(user);

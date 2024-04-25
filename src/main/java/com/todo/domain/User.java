@@ -29,4 +29,7 @@ public class User {
 
     // @OneToMany(mappedBy = "user")
     // private List<Todolist> todolists;
+
+    private Role role;
+
 }
