@@ -48,8 +48,8 @@ public class UserRestController {
             .user(userRepository.findUserById(user_id))
             .build();
         todolistRepository.save(todolist);
-        ModelAndView modelAndView = new ModelAndView(String.format("redirect:/user/%s", user_id));
-        modelAndView.addObject("message", "CREATED");
+        ModelAndView modelAndView = new ModelAndView(String.format("redirect:/user/%s/todolist/%s", user_id, todolist.getId()));
+        // modelAndView.addObject("message", "CREATED");
         return modelAndView;
     }
 

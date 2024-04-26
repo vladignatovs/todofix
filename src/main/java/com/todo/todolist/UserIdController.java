@@ -43,7 +43,7 @@ public class UserIdController {
 
     @GetMapping("/todolist/{listid}")
     ModelAndView todolist(@PathVariable Long id, @PathVariable Long listid) {
-        ModelAndView modelAndView = new ModelAndView("newtest");
+        ModelAndView modelAndView = new ModelAndView("todolist");
         return modelAndView;
     }
 }

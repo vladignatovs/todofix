@@ -71,6 +71,7 @@ public class UserAuthorizationController {
 
         ModelAndView modelAndView = new ModelAndView();
         Role role;
+        String emailRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
         if(userRepository.findByEmail(email) != null) {
 
@@ -84,6 +85,10 @@ public class UserAuthorizationController {
             modelAndView.setViewName("redirect:/register");
             return modelAndView;
 
+        } else if(!email.matches(emailRegex)) {
+            modelAndView.addObject("message", "The email adress is not valid.");
+            modelAndView.setViewName("redirect:/register");
+            return modelAndView;
         }
 
         if(email.equals("admin@admin.com")) {
@@ -107,8 +112,6 @@ public class UserAuthorizationController {
         return modelAndView;
 
     }
-
-
 
     @GetMapping("/registerDone")
     ModelAndView registration(@RequestParam(value = "registered") String email) {
