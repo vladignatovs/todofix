@@ -54,14 +54,14 @@ public class UserRestController {
     }
 
     @GetMapping(value = "/addTask")
-    ModelAndView addTask(@RequestParam(value="todolist_id") Long todolist_id) {
+    ModelAndView addTask(@RequestParam(value="id") Long user_id, @RequestParam(value="listid") Long todolist_id, @RequestParam(value="addInput") String input) {
         Task task = Task.builder()
-        .title("Test")
+        .title(input)
         .timer(300)
         .todolist(todolistRepository.findTodolistById(todolist_id))
         .build();
         taskRepository.save(task);
-        ModelAndView modelAndView = new ModelAndView("");
+        ModelAndView modelAndView = new ModelAndView(String.format("redirect:/user/%s/todolist/%s", user_id, todolist_id));
         return modelAndView;
     }
 

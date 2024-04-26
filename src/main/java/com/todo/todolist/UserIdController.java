@@ -6,12 +6,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.todo.repository.TodolistRepository;
+import com.todo.repository.UserRepository;
+
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user/{id}")
 public class UserIdController {
     
+    UserRepository userRepository;
+    TodolistRepository todolistRepository;
+
+    public UserIdController(UserRepository userRepository, TodolistRepository todolistRepository) {
+        this.userRepository = userRepository;
+        this.todolistRepository = todolistRepository;
+    }
     
     @GetMapping("")
     ModelAndView afterRegistrationPage(@PathVariable Long id, HttpSession session) {
@@ -42,8 +52,18 @@ public class UserIdController {
     }
 
     @GetMapping("/todolist/{listid}")
-    ModelAndView todolist(@PathVariable Long id, @PathVariable Long listid) {
+    ModelAndView todolist(@PathVariable Long id, @PathVariable Long listid, HttpSession session) {
+        Long userId = (Long) session.getAttribute("user");
+        if(!(userId != null 
+        && userId.equals(id) 
+        && todolistRepository.findTodolistById(listid) != null 
+        && todolistRepository.findTodolistById(listid).getUser().getId().equals(id))) {
+            return new ModelAndView("redirect:/login?message=ACCESS+DENIED");
+        }
+
         ModelAndView modelAndView = new ModelAndView("todolist");
+        modelAndView.addObject("id", id);
+        modelAndView.addObject("listid", listid);
         return modelAndView;
     }
 }

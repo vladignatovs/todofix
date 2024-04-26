@@ -27,13 +27,16 @@
                 
                 <!-- form holder -->
                 <div class="formHolder">
-                
-                    <div class="col big">
-                    	<input type="text" id="addInput">
-                    </div>
                     
                     <div class="col">
-                        <button type="button" id="addBtn" class="btn-primary">Add Item</button>
+                        <form action="/addTask" method="get">
+                            <input type="hidden" th:value="${id}" name="id"> 
+                            <input type="hidden" th:value="${listid}" name="listid"> 
+
+                            <input type="text" id="addInput" name="addInput"> <br>
+                            <input type="submit" id="addBtn" name="addBtn" class="btn-primary" value="Add Task">
+                            <h1 th:text="${message}"></h1>
+                        </form>
                     </div>
                 
                     <div class="col">
