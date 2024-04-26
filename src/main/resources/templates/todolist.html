@@ -32,13 +32,15 @@
                     	<input type="text" id="addInput">
                     </div>
                     
+                    <div class="search-wrapper">
+                        <label for="search">Search Users</label>
+                        <input type="search" id="search" data-search>
+                    </div>
+
                     <div class="col">
                         <button type="button" id="addBtn" class="btn-primary">Add Item</button>
                     </div>
-                
-                    <div class="col">
-                        <button type="button" id="toggleBtn" class="btn-primary">Hide List</button>
-                    </div>
+                    
                     
               	</div>
           	</div>
@@ -157,6 +159,10 @@ function createBtn(li) {
     remove.className = 'btn-icon remove';
     li.appendChild(remove);
     
+    const change = document.createElement('button');
+    change.className = 'change';
+    li.appendChild(change);
+
     const timer = document.createElement('div');
     timer.className = 'timer';
     li.appendChild(timer);
@@ -181,7 +187,20 @@ divList.addEventListener('click', (event) => {
         if (button.className === 'btn-icon remove') {
         	ul.removeChild(li);
           	counter--;
-    	} 
+    	} else if (button.className === 'change') {
+            const changeInput = document.createElement('input');
+            changeInput.className = 'chInput';
+            changeInput.id = 'chIn'
+            li.appendChild(changeInput);
+            const paragraph = document.getElementById('chIn').value;
+            document.getElementById('chIn').addEventListener('keyup', (event) => {
+	            if(event.which === 13) {
+                    li.innerText = paragraph;
+                    document.getElementById('chIn') = '';
+	            }
+            });
+
+        }
     }
 });
 
