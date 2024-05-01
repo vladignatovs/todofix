@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoList</title>
+</head>
+<body>
+    <form action="/addTask" method="get">
+        <input type="hidden" th:value="${listid}" name="listid"> 
+
+        <input type="text" id="addInput" name="addInput"> <br>
+        <input type="text" id="addTime" name="addTime" placeholder="00 : 00 : 00"> <br>
+        <input type="submit" id="addBtn" name="addBtn" class="btn-primary" value="Add Task">
+        <h1 th:text="${message}"></h1>
+    </form>
+</body>

@@ -61,8 +61,7 @@ public class UserIdController {
             return new ModelAndView("redirect:/login?message=ACCESS+DENIED");
         }
 
-        ModelAndView modelAndView = new ModelAndView("todolist");
-        modelAndView.addObject("id", id);
+        ModelAndView modelAndView = new ModelAndView("todolisttest");
         modelAndView.addObject("listid", listid);
         return modelAndView;
     }

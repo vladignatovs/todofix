@@ -29,20 +29,15 @@
                 <div class="formHolder">
                     
                     <div class="col">
-                        <form action="/addTask" method="get">
-                            <input type="hidden" th:value="${id}" name="id"> 
+                        <!-- <form action="/addTask" method="get"> -->
                             <input type="hidden" th:value="${listid}" name="listid"> 
 
                             <input type="text" id="addInput" name="addInput"> <br>
+                            <input type="text" id="addTime" name="addTime" placeholder="00 : 00 : 00"> <br>
                             <input type="submit" id="addBtn" name="addBtn" class="btn-primary" value="Add Task">
                             <h1 th:text="${message}"></h1>
-                        </form>
+                        <!-- </form> -->
                     </div>
-                
-                    <div class="col">
-                        <button type="button" id="toggleBtn" class="btn-primary">Hide List</button>
-                    </div>
-                    
               	</div>
           	</div>
  		</div>
@@ -192,9 +187,9 @@ class Timer {
 	constructor(root) {
     	root.innerHTML = Timer.getHTML();
         this.el = {
-        	hours: root.querySelector(".timer__part--hours"),
-            minutes: root.querySelector(".timer__part--minutes"),
             seconds: root.querySelector(".timer__part--seconds"),
+            minutes: root.querySelector(".timer__part--minutes"),
+        	hours: root.querySelector(".timer__part--hours"),
             control: root.querySelector(".timer__btn--control"),
             reset: root.querySelector(".timer__btn--reset")
         };
@@ -211,8 +206,8 @@ class Timer {
         });
       
         this.el.reset.addEventListener("click", () => {
-        	const inputHours = prompt("Enter number of hours:");
             const inputMinutes = prompt("Enter number of minutes:");
+        	const inputHours = prompt("Enter number of hours:");
       
             this.stop();
             this.remainingSeconds = (inputHours * 3600) + (inputMinutes * 60);

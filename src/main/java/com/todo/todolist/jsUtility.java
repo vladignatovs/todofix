@@ -28,4 +28,9 @@ public class jsUtility {
         }
         return tasks;
     }
+
+    @GetMapping("/test222")
+    public List<Task> useraList() {
+        return (List<Task>) taskRepository.findAll();
+    }
 }
