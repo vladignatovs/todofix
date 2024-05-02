@@ -42,9 +42,11 @@ public class UserRestController {
     }
     
     @GetMapping(value = "/addTodolist")
-    ModelAndView addTodolist(@RequestParam(value="id") Long user_id) {
+    ModelAndView addTodolist(
+    @RequestParam(value="id") Long user_id,
+    @RequestParam(value="title") String title) {
         Todolist todolist = Todolist.builder() 
-            .title("Test")
+            .title(title)
             .user(userRepository.findUserById(user_id))
             .build();
         todolistRepository.save(todolist);

@@ -1,11 +1,16 @@
 package com.todo.todolist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.todo.domain.Task;
+import com.todo.repository.TaskRepository;
 import com.todo.repository.TodolistRepository;
 import com.todo.repository.UserRepository;
 
@@ -17,10 +22,12 @@ public class UserIdController {
     
     UserRepository userRepository;
     TodolistRepository todolistRepository;
+    TaskRepository taskRepository;
 
-    public UserIdController(UserRepository userRepository, TodolistRepository todolistRepository) {
+    public UserIdController(UserRepository userRepository, TodolistRepository todolistRepository, TaskRepository taskRepository) {
         this.userRepository = userRepository;
         this.todolistRepository = todolistRepository;
+        this.taskRepository = taskRepository;
     }
     
     @GetMapping("")
@@ -61,8 +68,16 @@ public class UserIdController {
             return new ModelAndView("redirect:/login?message=ACCESS+DENIED");
         }
 
+        List<Task> allTasks = (List<Task>) taskRepository.findAll();
+        List<Task> tasks = new ArrayList<>();
+        for (Task task : allTasks) {
+            if(task.getTodolist().getId().equals(listid)) {
+                tasks.add(task);
+            }
+        }
         ModelAndView modelAndView = new ModelAndView("todolisttest");
         modelAndView.addObject("listid", listid);
+        modelAndView.addObject("tasks", tasks);
         return modelAndView;
     }
 }
