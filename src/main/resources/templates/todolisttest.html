@@ -10,7 +10,10 @@
         <input type="hidden" th:value="${listid}" name="listid"> 
 
         <input type="text" id="addInput" name="addInput"> <br>
-        <input type="text" id="addTime" name="addTime" placeholder="00 : 00 : 00"> <br>
+        <input type="text" id="addTime" name="addTime" placeholder="00 : 00 : 00" 
+        pattern="^[0-9]{1,6}$" 
+        title="You can only enter numbers, with a minimal of 1 characters 
+        upto 6 characters are accepted."> <br>
         <input type="submit" id="addBtn" name="addBtn" class="btn-primary" value="Add Task">
         <h1 th:text="${message}"></h1>
     </form>
