@@ -50,9 +50,7 @@ public class UserRestController {
             .user(userRepository.findUserById(user_id))
             .build();
         todolistRepository.save(todolist);
-        ModelAndView modelAndView = new ModelAndView(String.format("redirect:/user/%s/todolist/%s", user_id, todolist.getId()));
-        // modelAndView.addObject("message", "CREATED");
-        return modelAndView;
+        return new ModelAndView(String.format("redirect:/user/%s/todolist/%s", user_id, todolist.getId()));
     }
 
     @GetMapping("/dashboard")
@@ -74,4 +72,13 @@ public class UserRestController {
             return users;
         }
     }   
+
+    @GetMapping("/resend")
+    ModelAndView resend(@RequestParam(value="listid") Long list_id) {
+        return new ModelAndView(String.format(
+            "redirect:/user/%s/todolist/%s", 
+            todolistRepository.findTodolistById(list_id).getUser().getId(),
+            todolistRepository.findTodolistById(list_id).getId()));
+    }  
+
 }

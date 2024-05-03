@@ -28,7 +28,9 @@ public class AdminController {
     @GetMapping("/userList")
     ModelAndView listOfUsers(@PathVariable("id") Long id, HttpSession session) {
         Long userId = (Long) session.getAttribute("user");
-        if(!(userId != null && userId.equals(id) && userRepository.findUserById(id).getRole() == Role.ADMIN)) {
+        if(!(userId != null 
+        && userId.equals(id) 
+        && userRepository.findUserById(id).getRole() == Role.ADMIN)) {
             return new ModelAndView("redirect:/login?message=ACCESS+DENIED");
         }
 

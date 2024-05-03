@@ -3,8 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/css/registered.css">
+    <script src="/js/registered.js"></script>
 </head>
 <body>
+    <div class="main-page">
+        <ul>
+            <li th:each="todolist: ${todolists}">
+                <div id="todolist" class="todolist">
+                    <p th:text="${todolist.title}"></p>
+                    <form action="/resend" method="get">
+                        <input type="hidden" th:value="${todolist.id}" name="listid">
+                        <input type="submit" class="fill-div" value="">
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
     <form action="/addTodolist" method="get">
         <input type="hidden" th:value="${id}" name="id"> 
         <input type="text" name="title" required> <br>

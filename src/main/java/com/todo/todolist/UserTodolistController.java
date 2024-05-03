@@ -43,4 +43,16 @@ public class UserTodolistController {
                 
         return modelAndView;
     }
+
+
+    @GetMapping("/deleteTask")
+    ModelAndView deleteTask(@RequestParam(value="taskid") Long task_id) {
+        ModelAndView modelAndView = new ModelAndView(String.format(
+            "redirect:/user/%s/todolist/%s",
+            taskRepository.findTaskById(task_id).getTodolist().getUser().getId(),
+            taskRepository.findTaskById(task_id).getTodolist().getId()));
+        taskRepository.deleteById(task_id);
+        return modelAndView;
+    }
+
 }

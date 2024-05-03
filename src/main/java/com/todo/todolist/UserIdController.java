@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.todo.domain.Task;
+import com.todo.domain.Todolist;
 import com.todo.repository.TaskRepository;
 import com.todo.repository.TodolistRepository;
 import com.todo.repository.UserRepository;
@@ -33,29 +34,24 @@ public class UserIdController {
     @GetMapping("")
     ModelAndView afterRegistrationPage(@PathVariable Long id, HttpSession session) {
         Long userId = (Long) session.getAttribute("user");
-        if(userId != null && userId.equals(id)) {
-            ModelAndView modelAndView = new ModelAndView("registered");
-            modelAndView.addObject("id", id);
+        ModelAndView modelAndView = new ModelAndView();
+        if(!(userId != null && userId.equals(id))) {
+            modelAndView.setViewName("redirect:/login");
+            modelAndView.addObject("message", "ACCESS DENIED");
             return modelAndView;
         }
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/login");
-        modelAndView.addObject("message", "ACCESS DENIED");
+        List<Todolist> allTodolists = (List<Todolist>) todolistRepository.findAll();
+        List<Todolist> todolists = new ArrayList<>();
+        for (Todolist todolist : allTodolists) {
+            if(todolist.getUser().getId().equals(id)) {
+                todolists.add(todolist);
+            }
+        }
+        modelAndView.setViewName("registered");
+        modelAndView.addObject("todolists", todolists);
+        modelAndView.addObject("id", id);
         return modelAndView;
-        // HttpRequest request = new HttpRequest(HttpMethod.GET, "/user/{id}");
-        
-        // session = request.getSession();
-        // session.invalidate();
-        // User user = (User) session.getAttribute("user");
-
-        // if (user.getId() != id) {
-        // }
-        // ModelAndView modelAndView = new ModelAndView("viewUser");
-        // if(userRepository.findById(id) != null) {
-        //     User user = userRepository.findUserById(id);
-        //     modelAndView.addObject("email", user.getEmail());
-        //     modelAndView.addObject("password", user.getPassword());
-        // }
     }
 
     @GetMapping("/todolist/{listid}")

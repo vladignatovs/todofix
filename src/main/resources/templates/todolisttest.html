@@ -7,13 +7,16 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+    <input type="text" id="search-item" class="data__search" placeholder="Search..." onkeyup="search()">
     <div clas="listHolder">
         <ul class="list">
-            <li th:each="task: ${tasks}">
-                <p th:text="${task.title}"></p>
+            <li th:each="task: ${tasks}" class="task">
+                <p1 th:text="${task.title}" class="task__name"></p1>
                 <p th:text="${task.timer}" class="timer__time" style="visibility: hidden;"></p>
-                <div class="timer">
-                </div>
+                <div class="timer"></div>
+                <form action="/deleteTask" method="get" class="delete__button">
+                    <input type="hidden" th:value="${task.id}" name="taskid">
+                </form>
             </li>
         </ul>
     </div>
@@ -31,73 +34,76 @@
 </body>
 
 <style>
-    body {
-    	position: relative;
-        background: #dddddd;
-    	margin: 15px;
-	}
 
-    .btn-icon.remove:before {
-    	content: '\f2ed';
-    }
+body {
+    position: relative;
+    background: #dddddd;
+    margin: 15px;
+}
 
-    .timer {
-        font-family: sans-serif;
-        display: inline-block;
-        padding: 12px 16px;
-        border-radius: 30px;
-        background: white;
-    }
+.btn-icon.remove:before {
+    content: '\f2ed';
+}
 
-    .timer__part {
-        font-size: 18px;
-        font-weight: bold;
-        color:black;
-    }
+.timer {
+    font-family: sans-serif;
+    display: inline-block;
+    padding: 12px 16px;
+    border-radius: 30px;
+    background: white;
+}
 
-    .timer__btn {
-        width: 35px;
-        height: 35px;
-        position: center;
-        margin-left: 16px;
-        border-radius: 50%;
-        border: none;
-        color: white;
-        background: #8208e6;
-        cursor: pointer;
-    }
+.timer__part {
+    font-size: 18px;
+    font-weight: bold;
+    color:black;
+}
 
-    .timer__btn--start {
-        content: 'play_arrow';
-        width: 35px;
-        height: 35px;
-        position: center;
-        background: #00b84c;
-    }
+.timer__btn {
+    width: 35px;
+    height: 35px;
+    position: center;
+    margin-left: 16px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    background: #8208e6;
+    cursor: pointer;
+}
 
-    .timer__btn--stop {
-        width: 35px;
-        height: 35px;
-        position: center;
-        background: #ff0256;
-    }
+.timer__btn--start {
+    content: 'play_arrow';
+    width: 35px;
+    height: 35px;
+    position: center;
+    background: #00b84c;
+}
 
-    ul {
-        list-style-type: none;
-        list-style-position: outside;
-    }
+.timer__btn--stop {
+    width: 35px;
+    height: 35px;
+    position: center;
+    background: #ff0256;
+}
 
-    li {
-        font-weight: bold;
-        font-family: 'Courier New', monospace;
-        color: white;
-        background-color: grey;
-        padding:20px;
-        margin: 15px;
-        border-radius: 5px;
-    }
+ul {
+    list-style-type: none;
+    list-style-position: outside;
+}
+
+li {
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    color: white;
+    background-color: grey;
+    padding:20px;
+    margin: 15px;
+    border-radius: 5px;
+}
+
 </style>
 <script>
+    
 class Timer {
     constructor(root, timerTime) {
         root.innerHTML = Timer.getHTML();
@@ -194,13 +200,10 @@ const listUl = document.querySelector('.list');
 const lis = listUl.children;
 
 function createTimer(li) {
+    const del_buttons = document.querySelectorAll(".delete__button");
 	const remove = document.createElement('button');
     remove.className = 'btn-icon remove';
-    li.appendChild(remove);
-    
-    // const timer = document.createElement('div');
-    // timer.className = 'timer';
-    // li.appendChild(timer);
+    del_buttons[i].appendChild(remove);
 	
     const specTimer = document.querySelectorAll(".timer");
     const timerTime = document.querySelectorAll(".timer__time");
@@ -209,10 +212,11 @@ function createTimer(li) {
     return li;
 }
 
+///////////////////////////////////////////////////////////////
 for (var i = 0; i < lis.length; i++) {
 	createTimer(lis[i]);
 }
-
+///////////////////////////////////////////////////////////////
 
 divList.addEventListener('click', (event) => {
 	if (event.target.tagName === 'BUTTON') {
@@ -225,5 +229,22 @@ divList.addEventListener('click', (event) => {
     	} 
     }
 });
+
+function search() {
+    let searchbar = document.getElementById("search-item").value.toUpperCase();
+    let task = document.querySelectorAll(".task");
+    let text = document.getElementsByTagName('p1');
+
+    for(var i = 0;i<=text.length;i++){
+        let a = task[i].getElementsByTagName('p1')[0];
+        let value= a.innerHTML || a.innerText || a.textContent;
+
+        if(value.toUpperCase().indexOf(searchbar) > -1) {
+            task[i].style.display="";
+        } else {
+            task[i].style.display="none";
+        }
+    }
+}
 
 </script>
