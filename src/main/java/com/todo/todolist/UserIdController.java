@@ -71,7 +71,7 @@ public class UserIdController {
                 tasks.add(task);
             }
         }
-        ModelAndView modelAndView = new ModelAndView("todolisttest");
+        ModelAndView modelAndView = new ModelAndView("todolist");
         modelAndView.addObject("listid", listid);
         modelAndView.addObject("tasks", tasks);
         return modelAndView;

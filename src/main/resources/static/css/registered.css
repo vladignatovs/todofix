@@ -1,18 +1,33 @@
+body { 
+    margin: 0; 
+}
+
 input[type=submit] {
     display: inline-grid;
     padding: 0.5em 1.5em;
     border: 0;
     background-color: rgb(232,229,223);
     border-radius: 5px;
-    position: fixed;
     align-self: center;
 }
 
-input[type=submit]:hover {
+input[type=submit].main-input:hover {
     color: white;
     background-color: rgb(165, 162, 155);
     animation: custom ease-in-out 0.2s;
     cursor: pointer;
+}
+input[type=submit].log-out:hover {
+    color: white;
+    background-color: rgb(165, 162, 155);
+    animation: custom ease-in-out 0.2s;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    color: white;
+    cursor: pointer;
+    background-color: rgb(165, 162, 155);
 }
 
 /* CUSTOM ANIMATION ON MOUSE HOVER */ 
@@ -25,14 +40,38 @@ input[type=submit]:hover {
 
 div.todolist {
     background-color: #c3c3c3;
-    width: 200px;
-    height: 200px;
-    padding: 5px;
+    width: 100%;
+    height: 200px; 
 }
 
 input[type=submit].fill-div {
     background:transparent;
-    width: 200px; 
     height: 200px; 
-    box-sizing: border-box;
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+    padding-left: 15px;
+}
+
+.main-page {
+    float: left;
+    height: 100vh;
+    width: 40%;
+}
+
+.main-list {
+    background-color: red;
+    margin-left: 40%;
+    height: 100%;
+    position: relative;
+    display: flex;
 }

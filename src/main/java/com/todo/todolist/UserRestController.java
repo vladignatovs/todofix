@@ -81,4 +81,9 @@ public class UserRestController {
             todolistRepository.findTodolistById(list_id).getId()));
     }  
 
+    @GetMapping("/log-out")
+    ModelAndView logOut(HttpSession session) {
+        session.removeAttribute("user");
+        return new ModelAndView("redirect:/login?message=");
+    }
 }
