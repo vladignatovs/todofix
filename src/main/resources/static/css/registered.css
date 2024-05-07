@@ -1,7 +1,14 @@
 body { 
     margin: 0; 
+    background-color: red;
 }
 
+input[type=text] {
+    width: 100%;
+    border: none;
+    height: 30px;
+    background-color: white;
+}
 input[type=submit] {
     display: inline-grid;
     padding: 0.5em 1.5em;
@@ -11,12 +18,19 @@ input[type=submit] {
     align-self: center;
 }
 
+input[type=submit].fill-div {
+    background:transparent;
+    height: 200px; 
+    width: 100%;
+}
+
 input[type=submit].main-input:hover {
     color: white;
     background-color: rgb(165, 162, 155);
     animation: custom ease-in-out 0.2s;
     cursor: pointer;
 }
+
 input[type=submit].log-out:hover {
     color: white;
     background-color: rgb(165, 162, 155);
@@ -44,12 +58,6 @@ div.todolist {
     height: 200px; 
 }
 
-input[type=submit].fill-div {
-    background:transparent;
-    height: 200px; 
-    width: 100%;
-}
-
 ul {
     list-style-type: none;
     height: 100%;
@@ -65,13 +73,15 @@ li {
 .main-page {
     float: left;
     height: 100vh;
-    width: 40%;
+    width: 20%;
+    margin: 50px;
+    position: sticky;
 }
 
 .main-list {
-    background-color: red;
-    margin-left: 40%;
+    margin-left: 20%;
     height: 100%;
     position: relative;
     display: flex;
+    background-color: white;
 }

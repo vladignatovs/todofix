@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.todo.domain.Task;
 import com.todo.repository.TaskRepository;
@@ -20,5 +21,10 @@ public class jsUtility {
     @GetMapping("/SAFKLJN-418A_ADF761")
     public List<Task> userList() {
         return (List<Task>) taskRepository.findAll();
+    }
+
+    @GetMapping("/timeinput")
+    ModelAndView timeinput() {
+        return new ModelAndView("testinput");
     }
 }
