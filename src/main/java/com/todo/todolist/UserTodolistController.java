@@ -27,11 +27,29 @@ public class UserTodolistController {
     ModelAndView addTask(
     @RequestParam(value="listid") Long todolist_id, 
     @RequestParam(value="addInput") String input,
-    @RequestParam(value="addTime") int time ) {
+    @RequestParam(value="addTime") String time ) {
+
+        String result = time.replaceAll("[^\\d+]", "");
+        int timerValue = 300;
+
+        if(result != null) {
+            if(result.length() <= 2) { 
+                timerValue = Integer.parseInt(result.substring(0, result.length()));
+            } else if (result.length() <= 4) {
+                int minutes = Integer.parseInt(result.substring(0, result.length() - 2));
+                int seconds = Integer.parseInt(result.substring(result.length() - 2, result.length()));
+                timerValue =  seconds + minutes * 60;
+            } else if (result.length() <= 6) {
+                int hours = Integer.parseInt(result.substring(0, result.length() - 4));
+                int minutes = Integer.parseInt(result.substring(result.length() - 4, result.length() - 2));
+                int seconds = Integer.parseInt(result.substring(result.length() - 2, result.length()));
+                timerValue =  seconds + minutes * 60 + hours * 3600;
+            }
+        }
 
         Task task = Task.builder()
         .title(input)
-        .timer(time)
+        .timer(timerValue)
         .todolist(todolistRepository.findTodolistById(todolist_id))
         .build();
 

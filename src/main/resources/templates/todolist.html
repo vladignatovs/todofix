@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="js/todolist.js"></script>
     <title>ToDoList</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -40,75 +41,76 @@
         <h1 th:text="${message}"></h1>
     </form>
 </body>
-
 <style>
-    body {
-    	position: relative;
-        background: #dddddd;
-    	margin: 15px;
-	}
+body {
+    position: relative;
+    background: #dddddd;
+    margin: 15px;
+}
 
-    .btn-icon.remove:before {
-    	content: '\f2ed';
-    }
+.btn-icon.remove:before {
+    content: '\f2ed';
+}
 
-    .timer {
-        font-family: sans-serif;
-        display: inline-block;
-        padding: 12px 16px;
-        border-radius: 30px;
-        background: white;
-    }
+.timer {
+    font-family: sans-serif;
+    display: inline-block;
+    padding: 12px 16px;
+    border-radius: 30px;
+    background: white;
+}
 
-    .timer__part {
-        font-size: 18px;
-        font-weight: bold;
-        color:black;
-    }
+.timer__part {
+    font-size: 18px;
+    font-weight: bold;
+    color:black;
+}
 
-    .timer__btn {
-        width: 35px;
-        height: 35px;
-        position: center;
-        margin-left: 16px;
-        border-radius: 50%;
-        border: none;
-        color: white;
-        background: #8208e6;
-        cursor: pointer;
-    }
+.timer__btn {
+    width: 35px;
+    height: 35px;
+    position: center;
+    margin-left: 16px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    background: #8208e6;
+    cursor: pointer;
+}
 
-    .timer__btn--start {
-        content: 'play_arrow';
-        width: 35px;
-        height: 35px;
-        position: center;
-        background: #00b84c;
-    }
+.timer__btn--start {
+    content: 'play_arrow';
+    width: 35px;
+    height: 35px;
+    position: center;
+    background: #00b84c;
+}
 
-    .timer__btn--stop {
-        width: 35px;
-        height: 35px;
-        position: center;
-        background: #ff0256;
-    }
+.timer__btn--stop {
+    width: 35px;
+    height: 35px;
+    position: center;
+    background: #ff0256;
+}
 
-    ul {
-        list-style-type: none;
-        list-style-position: outside;
-    }
+ul {
+    list-style-type: none;
+    list-style-position: outside;
+}
 
-    li {
-        font-weight: bold;
-        font-family: 'Courier New', monospace;
-        color: white;
-        background-color: grey;
-        padding:20px;
-        margin: 15px;
-        border-radius: 5px;
-    }
+li {
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    color: white;
+    background-color: grey;
+    padding:20px;
+    margin: 15px;
+    border-radius: 5px;
+}
 </style>
 <script>
+// -----------------------------------------------------------------------------------------------
+// timer time input backend
 
 window.addEventListener("DOMContentLoaded", (event) => {
     if(document.getElementById("addTime")) {
@@ -133,35 +135,8 @@ function addTab() {
     }
 }
 
-document.getElementById('addBtn').addEventListener('click', () => {
-    document.querySelector("timer__time").value = timerValue();
-});
-
-// add list when pressed enter
-document.getElementById('addTime').addEventListener('keyup', (event) => {
-  if(event.which === 13) {
-    document.querySelector("timer__time").value = timerValue();
-  }
-});
-
-function timerValue() {
-    var timeInput = document.getElementById("addTime").value.replace(/ /g,'').replace(/:/g, '');
-    if(timeInput.length <= 2) { 
-        let seconds = timeInput.slice(0, timeInput.length);
-        return seconds;
-    } else if (timeInput.length <= 4) {
-        let minutes = timeInput.slice(0, timeInput.length - 2);
-        let seconds = timeInput.slice(timeInput.length - 2, timeInput.length);
-        return seconds + minutes;
-    } else if (timeInput.length <= 6) {
-        let hours = timeInput.slice(0, timeInput.length - 4);
-        let minutes = timeInput.slice(timeInput.length - 4, timeInput.length - 2);
-        let seconds = timeInput.slice(timeInput.length - 2,timeInput.length);
-        return seconds + minutes + hours;
-    }
-}
-
-
+// -----------------------------------------------------------------------------------------------
+// timer functionality 
 
 class Timer {
     constructor(root, timerTime) {
@@ -290,6 +265,8 @@ divList.addEventListener('click', (event) => {
     }
 });
 
+// -----------------------------------------------------------------------------------------------
+// search bar functionality
 
 function search() {
     let searchbar = document.getElementById("search-item").value.toUpperCase();
@@ -308,7 +285,8 @@ function search() {
     }
 }
 
-
+// -----------------------------------------------------------------------------------------------
+// filtering / sorting functionality
 
 let field = document.querySelector(".list");
 let li = Array.from(field.children);
@@ -318,8 +296,7 @@ let ar1 = [];
 let ar2 = [];
 let a = 0;
 
-for(let i of li)
-{
+for(let i of li) {
     const first = i.getElementsByTagName("p")[0];
     const x = first.textContent.trim();
     const y = Number(x.substring());
@@ -327,8 +304,7 @@ for(let i of li)
     ar.push(i);
 }
 
-for(let z of li)
-{
+for(let z of li) {
     const last = z.getElementsByTagName("p")[1];
     const x1 = last.textContent.trim();
     const y1 = String(x1.substring());
@@ -336,8 +312,7 @@ for(let z of li)
     ar1.push(z);
 }
 
-for(let v of li)
-{
+for(let v of li) {
     v.setAttribute("data-id",a);
     a++;
     ar2.push(v);
@@ -345,7 +320,7 @@ for(let v of li)
 
 select.onchange = sortingValue;
 
-function sortingValue(){
+function sortingValue() {
     
     if (this.value === 'Default') {
         SortElem2(field, li, true)
@@ -363,7 +338,7 @@ function sortingValue(){
         SortElem(field, li, false)
     }
 }
-function SortElem(field,li, asc){
+function SortElem(field,li, asc) {
     let  dm, sortli;
     dm = asc ? 1 : -1;
     sortli = li.sort((a, b)=>{
