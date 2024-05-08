@@ -35,9 +35,7 @@
 
         <input type="text" id="addInput" name="addInput" placeholder="Input task"> <br>
         <input type="text" id="addTime" name="addTime" placeholder="00 : 00 : 00" 
-        pattern="^[0-9]{1,6}$" 
-        title="You can only enter numbers, with a minimal of 1 characters 
-        upto 6 characters are accepted."> <br>
+        oninput="addTab();"> <br>
         <input type="submit" id="addBtn" name="addBtn" class="btn-primary" value="Add Task">
         <h1 th:text="${message}"></h1>
     </form>
@@ -112,7 +110,56 @@
 </style>
 <script>
 
+window.addEventListener("DOMContentLoaded", (event) => {
+    if(document.getElementById("addTime")) {
+        let input = document.getElementById("addTime");
+        input.addEventListener('keydown', function (event) {
+            const key = event.key;
+            if ((key === "Backspace" || key === "Delete") && input.value.length == 6) {
+                document.getElementById("addTime").value = document.getElementById("addTime").value.slice(0,3);
+            } else if((key === "Backspace" || key === "Delete") && input.value.length == 11){ 
+                document.getElementById("addTime").value = document.getElementById("addTime").value.slice(0,8);
+            }
+        });
+    }
+});
 
+function addTab() {
+    var timeInput = document.getElementById("addTime").value;
+    if(timeInput.length == 3) { 
+        document.getElementById("addTime").value = timeInput.slice(0,2)+ " : " + timeInput.slice(2, timeInput.length);
+    } else if(timeInput.length == 8) {
+        document.getElementById("addTime").value = timeInput.slice(0,7) + " : " + timeInput.slice(7, timeInput.length);
+    }
+}
+
+document.getElementById('addBtn').addEventListener('click', () => {
+    document.querySelector("timer__time").value = timerValue();
+});
+
+// add list when pressed enter
+document.getElementById('addTime').addEventListener('keyup', (event) => {
+  if(event.which === 13) {
+    document.querySelector("timer__time").value = timerValue();
+  }
+});
+
+function timerValue() {
+    var timeInput = document.getElementById("addTime").value.replace(/ /g,'').replace(/:/g, '');
+    if(timeInput.length <= 2) { 
+        let seconds = timeInput.slice(0, timeInput.length);
+        return seconds;
+    } else if (timeInput.length <= 4) {
+        let minutes = timeInput.slice(0, timeInput.length - 2);
+        let seconds = timeInput.slice(timeInput.length - 2, timeInput.length);
+        return seconds + minutes;
+    } else if (timeInput.length <= 6) {
+        let hours = timeInput.slice(0, timeInput.length - 4);
+        let minutes = timeInput.slice(timeInput.length - 4, timeInput.length - 2);
+        let seconds = timeInput.slice(timeInput.length - 2,timeInput.length);
+        return seconds + minutes + hours;
+    }
+}
 
 
 
@@ -220,14 +267,16 @@ function createTimer(li) {
     const specTimer = document.querySelectorAll(".timer");
     const timerTime = document.querySelectorAll(".timer__time");
 
+
     new Timer(specTimer[i], timerTime[i].textContent);
     return li;
 }
 
+//////////////////////////////////////////////////////////////////////
 for (var i = 0; i < lis.length; i++) {
 	createTimer(lis[i]);
 }
-
+//////////////////////////////////////////////////////////////////////
 
 divList.addEventListener('click', (event) => {
 	if (event.target.tagName === 'BUTTON') {

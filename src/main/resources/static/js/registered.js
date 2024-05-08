@@ -20,28 +20,25 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
 });
 
+window.addEventListener("DOMContentLoaded", (event) => {
+    if(document.getElementById("addTime")) {
+        let input = document.getElementById("addTime");
+        input.addEventListener('keydown', function (event) {
+            const key = event.key;
+            if ((key === "Backspace" || key === "Delete") && input.value.length == 6) {
+                document.getElementById("addTime").value = document.getElementById("addTime").value.slice(0,3);
+            } else if((key === "Backspace" || key === "Delete") && input.value.length == 11){ 
+                document.getElementById("addTime").value = document.getElementById("addTime").value.slice(0,8);
+            }
+        });
+    }
+});
 
 function addTab() {
     var timeInput = document.getElementById("addTime").value;
-    let added = false;
-    let added2 = false;
-    console.log(0);
-    if(timeInput.length == 3) {
-        if(added == false) {
-            document.getElementById("addTime").value = timeInput.slice(0,2)+ " : " + timeInput.slice(2, timeInput.length);
-            added = true;
-            console.log("added = ", added);
-        } else if(added && added2) {
-            added2 = false;
-        }
+    if(timeInput.length == 3) { 
+        document.getElementById("addTime").value = timeInput.slice(0,2)+ " : " + timeInput.slice(2, timeInput.length);
     } else if(timeInput.length == 8) {
-        if(added2 == false) {
-            document.getElementById("addTime").value = timeInput.slice(0,7) + " : " + timeInput.slice(7, timeInput.length);
-            added2 = true;
-            console.log("added2 = ", added2);
-            console.log(timeInput.length);
-        }
-    } else {
-        console.log("chota");
+        document.getElementById("addTime").value = timeInput.slice(0,7) + " : " + timeInput.slice(7, timeInput.length);
     }
 }

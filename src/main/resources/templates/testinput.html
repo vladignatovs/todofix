@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
     <input type="text" id="addTime" name="addTime" placeholder="00 : 00 : 00" 
         pattern="^[0-9]{1,6}$" 
         title="You can only enter numbers, with a minimal of 1 characters 
@@ -18,8 +19,11 @@
 </html>
 <style>
 
-/* .addTime {
-    direction:rtl;
-} */
-
+input {
+    display: inline-block;
+}
+span {
+    position: absolute;
+    display: block;
+}
 </style>
