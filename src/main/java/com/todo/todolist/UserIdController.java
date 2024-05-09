@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.todo.domain.Role;
 import com.todo.domain.Task;
 import com.todo.domain.Todolist;
 import com.todo.repository.TaskRepository;
@@ -39,6 +40,12 @@ public class UserIdController {
             modelAndView.setViewName("redirect:/login");
             modelAndView.addObject("message", "ACCESS DENIED");
             return modelAndView;
+        }
+
+        if(userRepository.findUserById(userId).getRole() == Role.ADMIN) {
+            List<Long> roles = new ArrayList<>();
+            roles.add(id);
+            modelAndView.addObject("roles", roles);
         }
 
         List<Todolist> allTodolists = (List<Todolist>) todolistRepository.findAll();

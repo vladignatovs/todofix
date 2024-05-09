@@ -12,11 +12,17 @@
             <input type="hidden" th:value="${id}" name="id"> 
             <input type="text" name="title" required> <br>
             <input type="submit" value="Add To-Do-List" class="main-input">
-            <h1 th:text="${message}"></h1>
         </form>
         <form action="/log-out" method="get">
             <input type="submit" value="Log-out" class="log-out">
         </form>
+        <ul class="role">
+            <li th:each="role : ${roles}" class="role">
+                <form th:action="@{/admin/__${role}__/userList}" method="get">
+                    <input type="submit" value="List of Users">
+                </form>
+            </li>
+        </ul>
     </div>
     <div class="main-list">
         <ul>
