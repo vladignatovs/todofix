@@ -27,7 +27,7 @@
         <ul>
             <li th:each="todolist: ${todolists}">
                 <div id="todolist" class="todolist">
-                    <form action="/resend" method="get">
+                    <form th:action="@{/user/__${todolist.user.id}__/todolist/__${todolist.id}__}" method="get">
                         <input type="hidden" th:value="${todolist.id}" name="listid">
                         <input type="submit" class="fill-div" th:value="${todolist.title}">
                     </form>
