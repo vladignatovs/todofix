@@ -1,8 +1,11 @@
 /* BACKGROUND PICTURE */
 body {
-    background: url("https://www.rvt.lv/wp-content/uploads/2023/04/52795861995_876b7b96c1_o-scaled.jpg");
+    background: url("image.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
-
 
 /* CUSTOMISATION OF THE SUBMIT BUTTON */
 input[type=submit] {
@@ -41,22 +44,6 @@ div {
     top: 17.5%;
     left: 32.5%;
 }
-/* #first {
-    background-color: rgb(229,157,54);
-}
-
-#first:hover {
-color: white;
-background-color: rgb(167, 120, 54);
-animation: customf ease-in-out 0.2s;
-}
-
-@keyframes customf {
-    50% {
-        background-color: rgb(102, 81, 53);
-        transform: scale(1.05);
-    }
-}      */
 
 /* INPUT FIELDS */
 input[type=text], input[type=password] {

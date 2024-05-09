@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="js/todolist.js"></script>
     <title>ToDoList</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="filter-condition">
-        <span>View As a</span>
-        <select name="" id="select">
+        <span class="sortirovochka">Sort</span>
+        <select name="" id="select" class="sort">
             <option value="Default">Default</option>
             <option value="a-z">A-Z</option>
             <option value="z-a">Z-A</option>
@@ -34,23 +36,180 @@
     <form action="/addTask" method="get">
         <input type="hidden" th:value="${listid}" name="listid" id="listid"> 
 
-        <input type="text" id="addInput" name="addInput" placeholder="Input task"> <br>
-        <input type="text" id="addTime" name="addTime" placeholder="00 : 00 : 00" 
-        oninput="addTab();"> <br>
+        <input type="text" id="addInput" class="addInput" name="addInput" placeholder="Input task" required> <br>
+        <input type="text" id="addTime" class="addTime" name="addTime" placeholder="00 : 00 : 00" oninput="addTab();" required> <br>
         <input type="submit" id="addBtn" name="addBtn" class="btn-primary" value="Add Task">
         <h1 th:text="${message}"></h1>
     </form>
 </body>
 <style>
+
+.btn-primary {
+    position: absolute;
+    top: 220px;
+    display: inline-block;
+    outline: 0;
+    border: none;
+    cursor: pointer;
+    height: 40px;
+    padding: 12px 17px;
+    border-radius: 50px;
+    background-color: #2222220d;
+    color: #222;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: #2222221a;
+}
+
+                
+
+.data__search {
+    position: absolute;
+    top: 80px;
+    border: 0;
+    outline: 0;
+    color: rgb(60, 66, 87);
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    padding: 4px 8px;
+    min-height: 28px;
+    vertical-align: middle;
+    transition: background-color .24s,box-shadow .24s;
+    transition-property: background-color, box-shadow;
+    transition-duration: 0.24s, 0.24s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s; 
+}
+
+.data__search:focus{
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(58 151 212 / 36%) 0px 0px 0px 4px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+}
+
+.addInput {
+    position: absolute;
+    top: 130px;
+    border: 0;
+    outline: 0;
+    color: rgb(60, 66, 87);
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    padding: 4px 8px;
+    min-height: 28px;
+    vertical-align: middle;
+    transition: background-color .24s,box-shadow .24s;
+    transition-property: background-color, box-shadow;
+    transition-duration: 0.24s, 0.24s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s; 
+}
+
+.addInput:focus{
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(58 151 212 / 36%) 0px 0px 0px 4px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+}
+
+.addTime {
+    position: absolute;
+    top: 180px;
+    border: 0;
+    outline: 0;
+    color: rgb(60, 66, 87);
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    padding: 4px 8px;
+    min-height: 28px;
+    vertical-align: middle;
+    transition: background-color .24s,box-shadow .24s;
+    transition-property: background-color, box-shadow;
+    transition-duration: 0.24s, 0.24s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s; 
+}
+
+.addTime:focus{
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(58 151 212 / 36%) 0px 0px 0px 4px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+}
+
+.filter-condition {
+    font-family: sans-serif;
+    display: inline-block;
+    padding: 12px 16px;
+    border-radius: 30px;
+    background: grey;
+}
+
+.sortirovochka {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+.sort {
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: middle;
+  height: 2.2em;
+  margin: 2px;
+  padding: 0.3em 0.6em;
+  background: white;
+  border: 1px solid #aaaaaa;
+  border-radius: 0.3em;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.85em;
+  font-weight: normal;
+  overflow: hidden;
+  text-shadow: 0 1px 0 white;
+  -webkit-transition: box-shadow 200ms, border-color 200ms;
+  -moz-transition: box-shadow 200ms, border-color 200ms;
+  transition: box-shadow 200ms, border-color 200ms;
+  white-space: nowrap; 
+}
+
 body {
     position: relative;
     background: #dddddd;
     margin: 15px;
 }
 
-.btn-icon.remove:before {
-    content: '\f2ed';
+.delete__button {
+    display: inline-block;
+    position: relative;
 }
+
+.fa-solid {
+    position: relative;
+    color: white;
+    bottom: 7px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: none;
+    background: rgb(255, 0, 0);
+}
+
+.fa-solid:hover {
+    background: rgb(131, 0, 0);
+    cursor: pointer;
+}
+
 
 .timer {
     font-family: sans-serif;
@@ -58,6 +217,7 @@ body {
     padding: 12px 16px;
     border-radius: 30px;
     background: white;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .timer__part {
@@ -78,12 +238,22 @@ body {
     cursor: pointer;
 }
 
+.timer__btn:hover {
+    background: #4c0586;
+    cursor: pointer;
+}
+
+
 .timer__btn--start {
     content: 'play_arrow';
     width: 35px;
     height: 35px;
     position: center;
     background: #00b84c;
+}
+
+.timer__btn--start:hover {
+    background: #007732;
 }
 
 .timer__btn--stop {
@@ -93,9 +263,14 @@ body {
     background: #ff0256;
 }
 
+.timer__btn--stop:hover {
+    background: #8f0030;
+}
+
 ul {
     list-style-type: none;
     list-style-position: outside;
+    margin-left: 140px;
 }
 
 li {
@@ -236,7 +411,7 @@ const lis = listUl.children;
 function createTimer(li) {
 	const del_buttons = document.querySelectorAll(".delete__button");
 	const remove = document.createElement('button');
-    remove.className = 'btn-icon remove';
+    remove.className = "fa-solid fa-trash-can";
     del_buttons[i].appendChild(remove);
 	
     const specTimer = document.querySelectorAll(".timer");
@@ -258,7 +433,7 @@ divList.addEventListener('click', (event) => {
     	const button = event.target;
     	const li = button.parentNode;
     	const ul = li.parentNode;
-        if (button.className === 'btn-icon remove') {
+        if (button.className === "fa-solid fa-trash-can") {
         	ul.removeChild(li);
           	counter--;
     	} 
