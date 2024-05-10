@@ -10,15 +10,21 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div class="filter-condition">
-        <span class="sortirovochka">Sort</span>
-        <select name="" id="select" class="sort">
-            <option value="Default">Default</option>
-            <option value="a-z">A-Z</option>
-            <option value="z-a">Z-A</option>
-            <option value="LowToHigh">Low to high</option>
-            <option value="HighToLow">High to low</option>
-        </select>
+    <div class="top-bar">
+        <div class="filter-condition">
+            <span class="sortirovochka">Sort</span>
+            <select name="" id="select" class="sort">
+                <option value="Default">Default</option>
+                <option value="a-z">A-Z</option>
+                <option value="z-a">Z-A</option>
+                <option value="LowToHigh">Low to high</option>
+                <option value="HighToLow">High to low</option>
+            </select>
+        </div>
+        <input type="text" id="search-item" class="data__search" placeholder="Search..." onkeyup="search()">
+        <form th:action="@{/user/__${id}__}" method="get">
+            <input type="submit" value="Return" class="btn-primary second">
+        </form>
     </div>
     <table class="listHolder">
         <ul class="list">
@@ -32,26 +38,59 @@
             </li>
         </ul>
     </table>
-    <input type="text" id="search-item" class="data__search" placeholder="Search..." onkeyup="search()">
-    <form action="/addTask" method="get">
-        <input type="hidden" th:value="${listid}" name="listid" id="listid"> 
-
-        <input type="text" id="addInput" class="addInput" name="addInput" placeholder="Input task" required> <br>
-        <input type="text" id="addTime" class="addTime" name="addTime" placeholder="00 : 00 : 00" oninput="addTab();" required> <br>
-        <input type="submit" id="addBtn" name="addBtn" class="btn-primary" value="Add Task">
-        <h1 th:text="${message}"></h1>
-    </form>
+    <div class="task-management">
+        <form action="/addTask" method="get" class="addTask">
+            <input type="hidden" th:value="${listid}" name="listid" id="listid"> 
+    
+            <input type="text" id="addInput" class="addInput" name="addInput" placeholder="Input task" required> <br>
+            <input type="text" id="addTime" class="addTime" name="addTime" placeholder="00 : 00 : 00" oninput="addTab();" required> <br>
+            <input type="submit" id="addBtn" name="addBtn" class="btn-primary" value="Add Task">
+            <h1 th:text="${message}"></h1>
+        </form>
+    </div>
 </body>
 <style>
 
+body {
+    background: #dddddd;
+    margin: 0;
+}
+
+.task-management {
+    position: absolute;
+    padding: 20px;
+    background-color: #ececec;
+    height: 100vh;
+    width: 187px;
+    top: 98px;
+}
+.addTask {
+    position: sticky;
+    top: 0;
+}
+.top-bar {
+    width: 100%;
+    height: fit-content;
+    background-color: #cacaca;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.btn-primary.second {
+    top: 30px;
+    left: 95%;
+    width: 4.5%;
+}
+
 .btn-primary {
     position: absolute;
-    top: 220px;
+    top: 110px;
     display: inline-block;
     outline: 0;
     border: none;
     cursor: pointer;
     height: 40px;
+    width: 100%;
     padding: 12px 17px;
     border-radius: 50px;
     background-color: #2222220d;
@@ -68,7 +107,8 @@
 
 .data__search {
     position: absolute;
-    top: 80px;
+    top: 30px;
+    left: 230px;
     border: 0;
     outline: 0;
     color: rgb(60, 66, 87);
@@ -94,7 +134,7 @@
 
 .addInput {
     position: absolute;
-    top: 130px;
+    top: 10px;
     border: 0;
     outline: 0;
     color: rgb(60, 66, 87);
@@ -120,7 +160,7 @@
 
 .addTime {
     position: absolute;
-    top: 180px;
+    top: 60px;
     border: 0;
     outline: 0;
     color: rgb(60, 66, 87);
@@ -181,12 +221,6 @@
   -moz-transition: box-shadow 200ms, border-color 200ms;
   transition: box-shadow 200ms, border-color 200ms;
   white-space: nowrap; 
-}
-
-body {
-    position: relative;
-    background: #dddddd;
-    margin: 15px;
 }
 
 .delete__button {
@@ -270,7 +304,7 @@ body {
 ul {
     list-style-type: none;
     list-style-position: outside;
-    margin-left: 140px;
+    margin-left: 200px;
 }
 
 li {

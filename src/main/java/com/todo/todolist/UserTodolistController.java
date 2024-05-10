@@ -32,7 +32,7 @@ public class UserTodolistController {
         String result = time.replaceAll("[^\\d+]", "");
         int timerValue = 300;
 
-        if(result != null) {
+        if(result != "") {
             if(result.length() <= 2) { 
                 timerValue = Integer.parseInt(result.substring(0, result.length()));
             } else if (result.length() <= 4) {
