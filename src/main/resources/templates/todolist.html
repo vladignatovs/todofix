@@ -548,17 +548,17 @@ function sortingValue() {
     }
 }
 function SortElem(field,li, asc) {
-    let  dm, sortli;
-    dm = asc ? 1 : -1;
+    let sortli;
     sortli = li.sort((a, b)=>{
         const ax = a.getAttribute('data-time');
         const bx = b.getAttribute('data-time');
-        return ax > bx ? (1*dm) : (-1*dm);
+        return asc ? ax - bx : bx - ax;
+        // ax > bx ? (1*dm) : (-1*dm);
     });
     while (field.firstChild) {
         field.removeChild(field.firstChild);
     }
-    field.append(...sortli);	 
+    field.append(...sortli);	
 }
         
 function SortElem1(field,li,asc) {
