@@ -436,6 +436,24 @@ class Timer {
     }
 }
 
+// let task = document.querySelectorAll(".task");
+// let text = document.getElementsByClassName("task__name");
+
+// for(var i = 0;i<=text.length;i++){
+//     let a=task[i].getElementsByClassName("task__name")[0];
+//     let value=a.innerHTML || a.innerText || a.textContent;
+    
+    
+//     console.log(value.toUpperCase().indexOf(searchbar));
+//     if(value.toUpperCase().indexOf(searchbar) > -1) {
+//         task[i].style.display="";
+//     } else {
+//         task[i].style.display="none";
+//     }
+// }
+
+
+
 const divList = document.querySelector('.listHolder');
     
     
@@ -486,6 +504,8 @@ function search() {
         let a=task[i].getElementsByClassName("task__name")[0];
         let value=a.innerHTML || a.innerText || a.textContent;
 
+
+        console.log(value.toUpperCase().indexOf(searchbar));
         if(value.toUpperCase().indexOf(searchbar) > -1) {
             task[i].style.display="";
         } else {

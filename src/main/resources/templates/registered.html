@@ -8,6 +8,7 @@
 <body>
     <div class="main-page">
         <form action="/addTodolist" method="get">
+            <input type="text" id="search-item" class="data__search" placeholder="Search..." onkeyup="search()">
             <input type="hidden" th:value="${id}" name="id"> 
             <input type="text" name="title" required> <br>
             <input type="submit" value="Add To-Do-List" class="main-input">
@@ -25,7 +26,7 @@
     </div>
     <div class="main-list">
         <ul>
-            <li th:each="todolist: ${todolists}">
+            <li th:each="todolist: ${todolists}" class="list">
                 <div id="todolist" class="todolist">
                     <form th:action="@{/user/__${todolist.user.id}__/todolist/__${todolist.id}__}" method="get">
                         <input type="hidden" th:value="${todolist.id}" name="listid">
@@ -37,3 +38,26 @@
     </div>
 </body>
 </html>
+
+
+<script>
+
+function search() {
+    let searchbar = document.getElementById("search-item").value.toUpperCase();
+    let list = document.querySelectorAll(".list");
+    let text = document.getElementsByClassName("fill-div");
+
+    for(var i = 0;i<=text.length;i++){
+        let a=list[i].getElementsByTagName("input")[1];
+
+        let value=a.getAttribute("value");
+
+        if(value.toUpperCase().indexOf(searchbar) > -1) {
+            list[i].style.display="";
+        } else {
+            list[i].style.display="none";
+        }
+    }
+}
+
+</script>
