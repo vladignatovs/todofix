@@ -95,3 +95,25 @@ li.role {
     display: flex;
     background-color: white;
 }
+
+.fa-solid {
+    position: relative;
+    color: white;
+    top: -190px;
+    left: 96%;
+    bottom: 7px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: none;
+    background: rgb(255, 0, 0);
+}
+
+.fa-solid:hover {
+    background: rgb(131, 0, 0);
+    cursor: pointer;
+}
+
+form.delete {
+    height: 0;
+}

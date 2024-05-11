@@ -1,11 +1,17 @@
 package com.todo.todolist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.todo.domain.Task;
+import com.todo.domain.Todolist;
+import com.todo.domain.User;
 import com.todo.repository.TaskRepository;
 import com.todo.repository.TodolistRepository;
 import com.todo.repository.UserRepository;
@@ -70,6 +76,20 @@ public class UserTodolistController {
             taskRepository.findTaskById(task_id).getTodolist().getUser().getId(),
             taskRepository.findTaskById(task_id).getTodolist().getId()));
         taskRepository.deleteById(task_id);
+        return modelAndView;
+    }
+
+    @GetMapping("/deleteList/{listid}")
+    ModelAndView deleteList(@PathVariable("listid") Long listid) {
+        List<Task> allTasks = (List<Task>) taskRepository.findAll();
+        ModelAndView modelAndView = new ModelAndView(String.format(
+            "redirect:/user/%s", todolistRepository.findTodolistById(listid).getUser().getId()));
+        for (Task task : allTasks) {
+            if(task.getTodolist().getId().equals(listid)) {
+                taskRepository.deleteById(task.getId());
+            }
+        }
+        todolistRepository.deleteById(listid);
         return modelAndView;
     }
 
