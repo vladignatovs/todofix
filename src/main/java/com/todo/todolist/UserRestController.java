@@ -72,14 +72,6 @@ public class UserRestController {
         }
     }   
 
-    @GetMapping("/resend")
-    ModelAndView resend(@RequestParam(value="listid") Long list_id) {
-        return new ModelAndView(String.format(
-            "redirect:/user/%s/todolist/%s", 
-            todolistRepository.findTodolistById(list_id).getUser().getId(),
-            todolistRepository.findTodolistById(list_id).getId()));
-    }  
-
     @GetMapping("/log-out")
     ModelAndView logOut(HttpSession session) {
         session.removeAttribute("user");
