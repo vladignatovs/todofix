@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoList</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="top-bar">
+        <div class="filter-condition">
+            <span class="sortirovochka">Sort</span>
+            <select name="" id="select" class="sort">
+                <option value="Default">Default</option>
+                <option value="a-z">A-Z</option>
+                <option value="z-a">Z-A</option>
+                <option value="LowToHigh">Low to high</option>
+                <option value="HighToLow">High to low</option>
+            </select>
+        </div>
+        <input type="text" id="search-item" class="data__search" placeholder="Search..." onkeyup="search()">
+        <form th:action="@{/user/__${id}__}" method="get">
+            <input type="submit" value="Return" class="btn-primary second">
+        </form>
+    </div>
+    <table class="listHolder">
+        <ul class="list">
+            <li th:each="task: ${tasks}" class="task" data-name="" data-time="" data-id="">
+                <p th:text="${task.timer}" class="timer__time" id="time" style="visibility: hidden;"></p>
+                <p th:text="${task.title}" class="task__name" id="name"></p>
+                <div class="timer"></div>
+                <form action="/deleteTask" method="get" class="delete__button">
+                    <input type="hidden" th:value="${task.id}" name="taskid">
+                </form>
+            </li>
+        </ul>
+    </table>
+    <div class="task-management">
+        <form action="/addTask" method="get" class="addTask">
+            <input type="hidden" th:value="${listid}" name="listid" id="listid"> 
+    
+            <input type="text" id="addInput" class="addInput" name="addInput" placeholder="Enter title: " required> <br>
+            <input type="text" id="addTime" class="addTime" name="addTime" placeholder="00 : 00 : 00" oninput="addTab();" required> <br>
+            <input type="submit" id="addBtn" name="addBtn" class="btn-primary" value="Add Task">
+            <h1 th:text="${message}"></h1>
+        </form>
+    </div>
+</body>
+<style>
+
+body {
+    height: 100%;
+    background: #dddddd;
+    margin: 0;
+}
+
+.task-management {
+    position: absolute;
+    align-self: stretch;
+    padding: 20px;
+    background-color: #ececec;
+    min-height: 100vh;
+    height: 100%;
+    width: 187px;
+    top: 98px;
+}
+
+.addTask {
+    position: sticky;
+    top: 0;
+}
+
+.top-bar {
+    width: 100%;
+    height: fit-content;
+    background-color: #cacaca;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.btn-primary.second {
+    top: 30px;
+    left: 92%;
+    width: 100px;
+}
+
+.btn-primary {
+    position: absolute;
+    top: 110px;
+    display: inline-block;
+    outline: 0;
+    border: none;
+    cursor: pointer;
+    height: 40px;
+    width: 100%;
+    padding: 12px 17px;
+    border-radius: 50px;
+    background-color: #2222220d;
+    color: #222;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: #2222221a;
+}
+
+                
+
+.data__search {
+    position: absolute;
+    top: 30px;
+    left: 230px;
+    border: 0;
+    outline: 0;
+    color: rgb(60, 66, 87);
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    padding: 4px 8px;
+    min-height: 28px;
+    vertical-align: middle;
+    transition: background-color .24s,box-shadow .24s;
+    transition-property: background-color, box-shadow;
+    transition-duration: 0.24s, 0.24s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s; 
+}
+
+.data__search:focus{
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(58 151 212 / 36%) 0px 0px 0px 4px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+}
+
+.addInput {
+    position: absolute;
+    top: 10px;
+    border: 0;
+    outline: 0;
+    color: rgb(60, 66, 87);
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    padding: 4px 8px;
+    min-height: 28px;
+    vertical-align: middle;
+    transition: background-color .24s,box-shadow .24s;
+    transition-property: background-color, box-shadow;
+    transition-duration: 0.24s, 0.24s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s; 
+}
+
+.addInput:focus{
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(58 151 212 / 36%) 0px 0px 0px 4px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+}
+
+.addTime {
+    position: absolute;
+    top: 60px;
+    border: 0;
+    outline: 0;
+    color: rgb(60, 66, 87);
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    padding: 4px 8px;
+    min-height: 28px;
+    vertical-align: middle;
+    transition: background-color .24s,box-shadow .24s;
+    transition-property: background-color, box-shadow;
+    transition-duration: 0.24s, 0.24s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s; 
+}
+
+.addTime:focus{
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(58 151 212 / 36%) 0px 0px 0px 4px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px;
+}
+
+.filter-condition {
+    font-family: sans-serif;
+    display: inline-block;
+    padding: 12px 16px;
+    border-radius: 30px;
+    background: grey;
+}
+
+.sortirovochka {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+.sort {
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: middle;
+  height: 2.2em;
+  margin: 2px;
+  padding: 0.3em 0.6em;
+  background: white;
+  border: 1px solid #aaaaaa;
+  border-radius: 0.3em;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.85em;
+  font-weight: normal;
+  overflow: hidden;
+  text-shadow: 0 1px 0 white;
+  -webkit-transition: box-shadow 200ms, border-color 200ms;
+  -moz-transition: box-shadow 200ms, border-color 200ms;
+  transition: box-shadow 200ms, border-color 200ms;
+  white-space: nowrap; 
+}
+
+.delete__button {
+    display: inline-block;
+    position: relative;
+}
+
+.fa-solid {
+    position: relative;
+    color: white;
+    left: -60px;
+    bottom: 5.8px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: none;
+    background: rgb(255, 0, 0);
+}
+
+.fa-solid:hover {
+    background: rgb(131, 0, 0);
+    cursor: pointer;
+}
+
+
+.timer {
+    width: 255px;
+    font-family: sans-serif;
+    display: inline-block;
+    padding: 12px 16px;
+    border-radius: 30px;
+    background: white;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.timer__part {
+    font-size: 18px;
+    font-weight: bold;
+    color:black;
+}
+
+.timer__btn {
+    width: 35px;
+    height: 35px;
+    position: center;
+    margin-left: 16px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    background: #8208e6;
+    cursor: pointer;
+}
+
+.timer__btn:hover {
+    background: #4c0586;
+    cursor: pointer;
+}
+
+
+.timer__btn--start {
+    content: 'play_arrow';
+    width: 35px;
+    height: 35px;
+    position: center;
+    background: #00b84c;
+}
+
+.timer__btn--start:hover {
+    background: #007732;
+}
+
+.timer__btn--stop {
+    width: 35px;
+    height: 35px;
+    position: center;
+    background: #ff0256;
+}
+
+.timer__btn--stop:hover {
+    background: #8f0030;
+}
+
+ul {
+    list-style-type: none;
+    list-style-position: outside;
+    margin-left: 200px;
+}
+
+li {
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    color: white;
+    background-color: grey;
+    padding:20px;
+    margin: 15px;
+    border-radius: 5px;
+}
+</style>
+<script>
+// -----------------------------------------------------------------------------------------------
+// timer time input backend
+
+window.addEventListener("DOMContentLoaded", (event) => {
+    if(document.getElementById("addTime")) {
+        let input = document.getElementById("addTime");
+        input.addEventListener('keydown', function (event) {
+            const key = event.key;
+            if ((key === "Backspace" || key === "Delete") && input.value.length == 6) {
+                document.getElementById("addTime").value = document.getElementById("addTime").value.slice(0,3);
+            } else if((key === "Backspace" || key === "Delete") && input.value.length == 11){ 
+                document.getElementById("addTime").value = document.getElementById("addTime").value.slice(0,8);
+            }
+        });
+    }
+});
+
+function addTab() {
+    var timeInput = document.getElementById("addTime").value;
+    if(timeInput.length == 3) { 
+        document.getElementById("addTime").value = timeInput.slice(0,2)+ " : " + timeInput.slice(2, timeInput.length);
+    } else if(timeInput.length == 8) {
+        document.getElementById("addTime").value = timeInput.slice(0,7) + " : " + timeInput.slice(7, timeInput.length);
+    }
+}
+
+// -----------------------------------------------------------------------------------------------
+// timer functionality 
+
+class Timer {
+    constructor(root, timerTime) {
+        root.innerHTML = Timer.getHTML();
+        this.el = {
+            seconds: root.querySelector(".timer__part--seconds"),
+            minutes: root.querySelector(".timer__part--minutes"),
+            hours: root.querySelector(".timer__part--hours"),
+            control: root.querySelector(".timer__btn--control"),
+            reset: root.querySelector(".timer__btn--reset"),
+        };
+        
+        this.interval = null;
+        this.remainingSeconds = timerTime;
+        this.updateInterfaceTime();
+        
+        this.el.control.addEventListener("click", () => {
+            if (this.interval === null) {
+                this.start();
+            } else {
+                    this.stop();
+            }
+        });
+        
+        this.el.reset.addEventListener("click", () => {
+            this.stop();
+            this.remainingSeconds = timerTime;
+            this.updateInterfaceTime();
+        });
+    }
+        
+    updateInterfaceTime() {
+        const hours = Math.floor(this.remainingSeconds / 3600);
+        const remainder = this.remainingSeconds - hours * 3600;
+        const minutes = Math.floor(remainder / 60);
+        const seconds = remainder - (minutes * 60);
+            
+        this.el.hours.textContent = hours.toString().padStart(2, "0");
+        this.el.minutes.textContent = minutes.toString().padStart(2, "0");
+        this.el.seconds.textContent = seconds.toString().padStart(2, "0");
+    }
+        
+    updateInterfaceControls() {
+        if (this.interval === null) {
+            this.el.control.innerHTML = `<span class="material-icons">play_arrow</span>`;
+            this.el.control.classList.add("timer__btn--start");
+            this.el.control.classList.remove("timer__btn--stop");
+        } else {
+            this.el.control.innerHTML = `<span class="material-icons">pause</span>`;
+            this.el.control.classList.add("timer__btn--stop");
+            this.el.control.classList.remove("timer__btn--start");
+        }
+    }
+        
+    start() {
+        if (this.remainingSeconds === 0) return;
+        this.interval = setInterval(() => {
+            this.remainingSeconds--;
+                this.updateInterfaceTime();
+                if (this.remainingSeconds === 0) {
+                    this.stop();
+                }
+            }, 1000);
+        
+        this.updateInterfaceControls();
+    }
+        
+    stop() {
+        clearInterval(this.interval);
+        this.interval = null;
+        this.updateInterfaceControls();
+    }
+    
+    static getHTML() {
+        return `
+            <span class="timer__part timer__part--hours">00</span>
+            <span class="timer__part">:</span>
+            <span class="timer__part timer__part--minutes">00</span>
+            <span class="timer__part">:</span>
+            <span class="timer__part timer__part--seconds">00</span>
+            <button type="button" class="timer__btn timer__btn--control timer__btn--start">
+                <span class="material-icons">play_arrow</span>
+            </button>
+            <button type="button" class="timer__btn timer__btn--reset">
+                <span class="material-icons">timer</span>
+            </button>
+        `;
+    }
+}
+
+const divList = document.querySelector('.listHolder');
+    
+    
+const listUl = document.querySelector('.list');
+const lis = listUl.children;
+
+function createTimer(li) {
+	const del_buttons = document.querySelectorAll(".delete__button");
+	const remove = document.createElement('button');
+    remove.className = "fa-solid fa-trash-can";
+    del_buttons[i].appendChild(remove);
+	
+    const specTimer = document.querySelectorAll(".timer");
+    const timerTime = document.querySelectorAll(".timer__time");
+
+
+    new Timer(specTimer[i], timerTime[i].textContent);
+    return li;
+}
+
+//////////////////////////////////////////////////////////////////////
+for (var i = 0; i < lis.length; i++) {
+	createTimer(lis[i]);
+}
+//////////////////////////////////////////////////////////////////////
+
+divList.addEventListener('click', (event) => {
+	if (event.target.tagName === 'BUTTON') {
+    	const button = event.target;
+    	const li = button.parentNode;
+    	const ul = li.parentNode;
+        if (button.className === "fa-solid fa-trash-can") {
+        	ul.removeChild(li);
+          	counter--;
+    	} 
+    }
+});
+
+// -----------------------------------------------------------------------------------------------
+// search bar functionality
+
+function search() {
+    let searchbar = document.getElementById("search-item").value.toUpperCase();
+    let task = document.querySelectorAll(".task");
+    let text = document.getElementsByClassName("task__name");
+
+    for(var i = 0;i<=text.length;i++){
+        let a=task[i].getElementsByClassName("task__name")[0];
+        let value=a.innerHTML || a.innerText || a.textContent;
+
+        if(value.toUpperCase().indexOf(searchbar) > -1) {
+            task[i].style.display="";
+        } else {
+            task[i].style.display="none";
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------
+// filtering / sorting functionality
+
+let field = document.querySelector(".list");
+let li = Array.from(field.children);
+let select = document.getElementById("select");
+let ar = [];
+let ar1 = [];
+let ar2 = [];
+let a = 0;
+
+for(let i of li) {
+    const first = i.getElementsByTagName("p")[0];
+    const x = first.textContent.trim();
+    const y = Number(x.substring());
+    i.setAttribute("data-time",y);
+    ar.push(i);
+}
+
+for(let z of li) {
+    const last = z.getElementsByTagName("p")[1];
+    const x1 = last.textContent.trim();
+    const y1 = String(x1.substring());
+    z.setAttribute("data-name",y1);
+    ar1.push(z);
+}
+
+for(let v of li) {
+    v.setAttribute("data-id",a);
+    a++;
+    ar2.push(v);
+}
+
+select.onchange = sortingValue;
+
+function sortingValue() {
+    
+    if (this.value === 'Default') {
+        SortElem2(field, li, true)
+    }
+    if (this.value === 'a-z') {
+        SortElem1(field, li, true)
+    }
+    if (this.value === 'z-a') {
+        SortElem1(field, li, false)
+    }
+    if (this.value === 'LowToHigh') {
+        SortElem(field, li, true)
+    }
+    if (this.value === 'HighToLow') {
+        SortElem(field, li, false)
+    }
+}
+
+function SortElem(field,li, asc) {
+    let sortli;
+    sortli = li.sort((a, b)=>{
+        const ax = a.getAttribute('data-time');
+        const bx = b.getAttribute('data-time');
+        return asc ? ax - bx : bx - ax;
+        // ax > bx ? (1*dm) : (-1*dm);
+    });
+    while (field.firstChild) {
+        field.removeChild(field.firstChild);
+    }
+    field.append(...sortli);	
+}
+        
+function SortElem1(field,li,asc) {
+    let  dm, sortli;
+    dm = asc ? 1 : -1;
+    sortli = li.sort((a, b)=>{
+        const ay = a.getAttribute('data-name');
+        const by = b.getAttribute('data-name');
+        return ay > by ? (1*dm) : (-1*dm);
+    });
+    while (field.firstChild) {
+        field.removeChild(field.firstChild);
+    }
+    field.append(...sortli);
+}
+
+function SortElem2(field,li,asc) {
+    let  dm, sortli;
+    dm = asc ? 1 : -1;
+    sortli = li.sort((a, b)=>{
+        const ay = a.getAttribute('data-id');
+        const by = b.getAttribute('data-id');
+        return ay > by ? (1*dm) : (-1*dm);
+    });
+    while (field.firstChild) {
+        field.removeChild(field.firstChild);
+    }
+    field.append(...sortli);
+}
+</script>

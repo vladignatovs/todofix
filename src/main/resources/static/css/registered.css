@@ -1,0 +1,122 @@
+body { 
+    margin: 0; 
+    background-image: url("image2.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+input[type=text] {
+    margin-bottom: 10px;
+    width: 100%;
+    border: none;
+    height: 30px;
+    background-color: white;
+}
+input[type=submit] {
+    display: inline-grid;
+    padding: 0.5em 1.5em;
+    border: 0;
+    background-color: rgb(232,229,223);
+    border-radius: 5px;
+    align-self: center;
+}
+
+input[type=submit].fill-div {
+    background:transparent;
+    height: 200px; 
+    width: 100%;
+}
+
+input[type=submit].main-input:hover {
+    color: white;
+    background-color: rgb(165, 162, 155);
+    animation: custom ease-in-out 0.2s;
+    cursor: pointer;
+}
+
+input[type=submit].log-out:hover {
+    color: white;
+    background-color: rgb(165, 162, 155);
+    animation: custom ease-in-out 0.2s;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    color: white;
+    cursor: pointer;
+    background-color: rgb(165, 162, 155);
+}
+
+/* CUSTOM ANIMATION ON MOUSE HOVER */ 
+@keyframes custom {
+    50% {
+        background-color: rgb(124, 122, 117);
+        transform: scale(1.05);
+    }
+}
+
+div.todolist {
+    background-color: #c3c3c3;
+    width: 100%;
+    height: 200px; 
+}
+
+ul {
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+    padding-left: 15px;
+}
+
+ul.role {
+    padding: 0;
+    margin: 0;
+    height: 0;
+}
+li.role {
+    padding: 0;
+}
+.main-page {
+    top: 50px;
+    position: sticky;
+    float: left;
+    height: 85vh;
+    width: 20%;
+    margin: 50px;
+}
+
+.main-list {
+    margin-left: 20%;
+    min-height: 100vh;
+    height: 100%;
+    position: relative;
+    display: flex;
+    background-color: white;
+}
+
+.fa-solid {
+    position: relative;
+    color: white;
+    top: 10px;
+    left: 96%;
+    bottom: 7px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: none;
+    background: rgb(255, 0, 0);
+}
+
+.fa-solid:hover {
+    background: rgb(131, 0, 0);
+    cursor: pointer;
+}
+
+form.delete, form.todolist-link {
+    height: 0;
+}
+

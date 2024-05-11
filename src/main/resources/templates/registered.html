@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/registered.css">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="main-page">
+        <input type="text" id="search-item" class="data__search" placeholder="Search..." onkeyup="search()">
+        <form action="/addTodolist" method="get">
+            <input type="hidden" th:value="${id}" name="id"> 
+            <input type="text" name="title" placeholder="Enter title: " required> <br>
+            <input type="submit" value="Add To-Do-List" class="main-input">
+        </form>
+        <form action="/log-out" method="get">
+            <input type="submit" value="Log-out" class="log-out">
+        </form>
+        <ul class="role">
+            <li th:each="role : ${roles}" class="role">
+                <form th:action="@{/admin/__${role}__/userList}" method="get">
+                    <input type="submit" value="List of Users">
+                </form>
+            </li>
+        </ul>
+    </div>
+    <div class="main-list">
+        <ul>
+            <li th:each="todolist: ${todolists}" class="list">
+                <div id="todolist" class="todolist">
+                    <form th:action="@{/user/__${todolist.user.id}__/todolist/__${todolist.id}__}" method="get" class="todolist-link">
+                        <input type="hidden" th:value="${todolist.id}" name="listid">
+                        <input type="submit" class="fill-div" th:value="${todolist.title}">
+                    </form>
+                    <form th:action="@{/deleteList/__${todolist.id}__}" method="get" class="delete">
+                        <button class="fa-solid fa-trash-can" value=""></button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
+<script>
+
+function search() {
+    let searchbar = document.getElementById("search-item").value.toUpperCase();
+    let list = document.querySelectorAll(".list");
+    let text = document.getElementsByClassName("fill-div");
+
+    for(var i = 0;i<=text.length;i++){
+        let a=list[i].getElementsByTagName("input")[1];
+        console.log(a);
+        let value=a.getAttribute("value");
+
+        if(value.toUpperCase().indexOf(searchbar) > -1) {
+            list[i].style.display="";
+        } else {
+            list[i].style.display="none";
+        }
+    }
+}
+    
+</script>
