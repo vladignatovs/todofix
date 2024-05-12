@@ -45,20 +45,26 @@ div {
     left: 32.5%;
 }
 
+form {
+    margin: 20px;
+}
 /* INPUT FIELDS */
 input[type=text], input[type=password] {
-    width: 92%;
-    padding: 15px;
-    margin: 1%;
+    width: 99%;
+    padding-top: 15px;
+    padding-bottom: 15px;
     display: inline-block;
     border: none;
+    outline: none;
     background: #f1f1f1;
+    border-bottom: .2em solid grey;
 }
 
 input[type=text]:focus, input[type=password]:focus {
   background-color: #ddd;
   outline: none;
 }
+
 
 label {
     margin: 1%
